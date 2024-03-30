@@ -1,0 +1,19 @@
+name: Latest blog post workflow
+on:
+  schedule:
+  	# 每个小时自动获取一次
+    - cron: '0 * * * *' # 每小时的第0分钟执行
+  workflow_dispatch: # 允许手动执行
+
+jobs:
+  update-readme-with-blog:
+    name: Update this repo's README with latest blog posts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Pull in dev.to posts
+        uses: gautamkrishnar/blog-post-workflow@master
+        with:
+          feed_list: "<https://rss.z-l.top>" # 改成博客订阅的地址，以RSS格式或者Atom格式输出的
+          max_post_count: "5" # 获取几条链接
